@@ -1,19 +1,40 @@
-// Temporary placeholder - will be replaced in Phase 4
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import Home from './pages/Home.jsx';
+import EditorPage from './pages/EditorPage.jsx';
+import NotFound from './pages/NotFound.jsx';
+
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base">
-      <div className="text-center">
-        <h1 className="font-roboto font-bold text-6xl text-gradient-aurora mb-4">
-          CodeSync
-        </h1>
-        <p className="font-vt text-2xl text-text-secondary">
-          Frontend setup complete ✓
-        </p>
-        <p className="font-vt text-lg text-text-muted mt-2">
-          Ready for Phase 4
-        </p>
+    <Router>
+      <div className="min-h-screen bg-base text-white font-vt overflow-hidden">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/editor/:roomId" element={<EditorPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+
+        {/* Global Toast Notifications */}
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            style: {
+              background: '#12121a',
+              color: '#fff',
+              border: '1px solid rgba(168, 85, 247, 0.3)',
+              fontFamily: 'VT323, monospace',
+              fontSize: '18px',
+            },
+            success: {
+              iconTheme: { primary: '#06b6d4' },
+            },
+            error: {
+              iconTheme: { primary: '#ef4444' },
+            },
+          }}
+        />
       </div>
-    </div>
+    </Router>
   );
 }
 
