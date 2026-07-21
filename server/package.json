@@ -1,0 +1,33 @@
+{
+  "name": "codesync-server",
+  "version": "1.0.0",
+  "description": "CodeSync backend - Real-time collaborative code editor server",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node main.js",
+    "dev": "nodemon main.js"
+  },
+  "keywords": [
+    "socket.io",
+    "express",
+    "collaborative",
+    "code-editor"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "morgan": "^1.11.0",
+    "socket.io": "^4.8.3",
+    "uuid": "^14.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
