@@ -21,6 +21,54 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  cursor: default;
+}
+
+/* ==================== CURSOR FIX ==================== */
+/* Default cursor for everything */
+* {
+  cursor: default;
+}
+
+/* Text cursor ONLY on actual input fields */
+input,
+textarea,
+[contenteditable="true"] {
+  cursor: text;
+}
+
+/* Pointer cursor on interactive elements */
+button,
+a,
+[role="button"],
+label,
+select,
+summary {
+  cursor: pointer;
+}
+
+/* Disabled cursor */
+button:disabled,
+input:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+}
+
+/* Prevent text selection on UI elements (optional but cleaner) */
+h1, h2, h3, h4, h5, h6,
+button,
+nav,
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Allow text selection on paragraphs and content */
+p, span, code, pre {
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 /* ==================== CUSTOM SCROLLBAR ==================== */
@@ -34,12 +82,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e1e2e;
+  background: linear-gradient(180deg, #a855f7, #06b6d4);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a855f7;
+  background: linear-gradient(180deg, #ec4899, #a855f7);
 }
 
 /* ==================== SELECTION ==================== */
@@ -48,7 +96,7 @@ body {
   color: #ffffff;
 }
 
-/* ==================== UTILITY CLASSES ==================== */
+/* ==================== TEXT GRADIENTS ==================== */
 .text-gradient {
   background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
   -webkit-background-clip: text;
@@ -63,6 +111,14 @@ body {
   background-clip: text;
 }
 
+.text-gradient-sunset {
+  background: linear-gradient(135deg, #f97316 0%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ==================== GLASSMORPHISM ==================== */
 .glass {
   background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(20px);
@@ -70,13 +126,22 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.glass-strong {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
 .glass-hover {
   transition: all 0.3s ease;
 }
 
 .glass-hover:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(168, 85, 247, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(168, 85, 247, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(168, 85, 247, 0.15);
 }
 
 /* ==================== AURORA GLOW ==================== */
@@ -86,10 +151,142 @@ body {
   filter: blur(80px);
   opacity: 0.6;
   pointer-events: none;
+  will-change: transform;
 }
 
-/* ==================== NO SCROLL FIX ==================== */
+/* ==================== NEON EFFECTS ==================== */
+.neon-purple {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+.neon-cyan {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+}
+
+.neon-text {
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
+}
+
+/* ==================== ROOT CONTAINER ==================== */
 #root {
   min-height: 100vh;
   width: 100%;
+  position: relative;
+}
+
+/* ==================== CANVAS FIX ==================== */
+canvas {
+  display: block;
+  outline: none;
+  cursor: default;
+}
+
+/* ==================== FONT UTILITIES ==================== */
+.font-vt {
+  font-family: 'VT323', monospace;
+}
+
+.font-roboto {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes aurora {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) rotate(120deg) scale(1.1);
+  }
+  66% {
+    transform: translate(-30px, 30px) rotate(240deg) scale(0.9);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* ==================== SECTION SPACING ==================== */
+section {
+  position: relative;
+  background: transparent;
+}
+
+/* ==================== SEAMLESS SECTION TRANSITIONS ==================== */
+.section-fade {
+  position: relative;
+}
+
+.section-fade::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 5, 5, 0) 0%,
+    rgba(5, 5, 5, 0.2) 50%,
+    rgba(5, 5, 5, 0) 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bg-scroll-fade {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(5, 5, 5, 0.3) 40%,
+    rgba(5, 5, 5, 0.5) 100%
+  );
+}
+
+/* ==================== HIDE SCROLLBAR (OPTIONAL AREAS) ==================== */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ==================== INPUT FOCUS RING ==================== */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+/* ==================== BUTTON RESET ==================== */
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
