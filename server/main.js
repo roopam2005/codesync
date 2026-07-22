@@ -16,7 +16,7 @@ const server = http.createServer(app);
 
 // ==================== MIDDLEWARE ====================
 app.use(cors(corsOptions));
-app.use(express.json());
+app.use(express.json({ limit: '5mb' }));
 app.use(morgan('dev'));
 
 // ==================== ROUTES ====================
@@ -26,6 +26,13 @@ app.get('/', (req, res) => {
     message: '🚀 CodeSync server is running!',
     version: '1.0.0',
     timestamp: new Date().toISOString(),
+  });
+});
+
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'healthy',
+    uptime: process.uptime(),
   });
 });
 
