@@ -14,7 +14,7 @@
 
 ---
 
-![CodeSync Hero](./Screenshots/Hero Section.png)
+![CodeSyn](./Screenshots/Hero Section.png)
 
 </div>
 
