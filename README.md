@@ -14,7 +14,7 @@
 
 ---
 
-![CodeSync Hero](./screenshots/Hero%20Section.png)
+![CodeSync Hero](./Screenshots/Hero Section.png)
 
 </div>
 
@@ -40,7 +40,7 @@ Open two browser windows, create a room in one, join with the Room ID in the oth
 
 <div align="center">
 
-![Features](./screenshots/Featurs.png)
+![Features](./Screenshots/Featurs.png)
 
 </div>
 
@@ -65,11 +65,11 @@ Open two browser windows, create a room in one, join with the Room ID in the oth
 
 ### 💻 The Editor
 
-![Editor View](./screenshots/Editor.png)
+![Editor View](./Screenshots/Editor.png)
 
 ### 📋 How It Works
 
-![How It Works](./screenshots/Steps.png)
+![How It Works](./Screenshots/Steps.png)
 
 ---
 
@@ -245,7 +245,7 @@ codesync/
 │   ├── main.js               # Server entry point
 │   └── package.json
 │
-├── screenshots/               # Project screenshots
+├── Screenshots/               # Project screenshots
 └── README.md
 ```
 
