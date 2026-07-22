@@ -81,8 +81,8 @@ const Home = () => {
   const features = [
     {
       icon: <Code2 className="w-8 h-8" />,
-      title: 'Multi-Language',
-      description: 'Support for 15+ languages including JavaScript, Python, Java, C++, Go, Rust, and more.',
+      title: 'JS & Python',
+      description: 'Write and run JavaScript or Python code together. Perfect for pair programming and interviews.',
       number: '01',
     },
     {
@@ -93,14 +93,14 @@ const Home = () => {
     },
     {
       icon: <Rocket className="w-8 h-8" />,
-      title: 'Code Runner',
-      description: 'Execute your code in-browser with our sandboxed environment. Get instant output.',
+      title: 'Instant Runner',
+      description: 'Execute code directly in your browser. No servers, no delays — just click RUN and see output.',
       number: '03',
     },
     {
       icon: <Users className="w-8 h-8" />,
       title: 'Zero Setup',
-      description: 'No signup, no downloads. Create a room, share the ID, start coding together.',
+      description: 'No signup, no downloads. Create a room, share the ID, start coding together in seconds.',
       number: '04',
     },
   ];
@@ -108,13 +108,13 @@ const Home = () => {
   const steps = [
     { num: '01', title: 'Create Room', desc: 'Generate a unique Room ID with one click' },
     { num: '02', title: 'Share ID', desc: 'Send the Room ID to your teammates' },
-    { num: '03', title: 'Code Together', desc: 'Collaborate in real-time on any language' },
+    { num: '03', title: 'Code Together', desc: 'Collaborate in real-time on JavaScript or Python' },
   ];
 
   const stats = [
-    { label: 'LANGUAGES', value: '15+' },
-    { label: 'LATENCY', value: '<50ms' },
     { label: 'ROOMS', value: '∞' },
+    { label: 'LATENCY', value: '<50ms' },
+    { label: 'SETUP', value: '0 SEC' },
     { label: 'COST', value: 'FREE' },
   ];
 
