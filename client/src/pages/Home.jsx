@@ -2,37 +2,81 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
-import { Zap, Users, Code2, Rocket, ArrowRight, Sparkles } from 'lucide-react';
+import { Zap, Users, Code2, Rocket, ArrowRight, Sparkles, User, Hash } from 'lucide-react';
 import { generateRoomId } from '../utils/generateRoomId.js';
 import HomeBackground from '../three/HomeBackground.jsx';
 import AuroraGlow from '../components/ui/AuroraGlow.jsx';
+import GlassCard from '../components/ui/GlassCard.jsx';
+import PillButton from '../components/ui/PillButton.jsx';
+import Input from '../components/ui/Input.jsx';
 
 const Home = () => {
   const navigate = useNavigate();
   const [roomId, setRoomId] = useState('');
   const [username, setUsername] = useState('');
+  const [isCreating, setIsCreating] = useState(false);
+  const [isJoining, setIsJoining] = useState(false);
+
+  // ==================== HANDLERS ====================
 
   const handleCreateRoom = () => {
-    if (!username.trim()) {
+    const trimmedUsername = username.trim();
+
+    if (!trimmedUsername) {
       toast.error('Please enter a username');
       return;
     }
+
+    if (trimmedUsername.length < 2) {
+      toast.error('Username must be at least 2 characters');
+      return;
+    }
+
+    setIsCreating(true);
     const newRoomId = generateRoomId();
-    navigate(`/editor/${newRoomId}`, { state: { username } });
-    toast.success('Room created! 🚀');
+
+    setTimeout(() => {
+      navigate(`/editor/${newRoomId}`, { state: { username: trimmedUsername } });
+      toast.success('Room created! 🚀');
+    }, 300);
   };
 
   const handleJoinRoom = () => {
-    if (!roomId.trim() || !username.trim()) {
+    const trimmedRoomId = roomId.trim();
+    const trimmedUsername = username.trim();
+
+    if (!trimmedRoomId || !trimmedUsername) {
       toast.error('Please fill both Room ID and Username');
       return;
     }
-    navigate(`/editor/${roomId.trim()}`, { state: { username } });
+
+    if (trimmedUsername.length < 2) {
+      toast.error('Username must be at least 2 characters');
+      return;
+    }
+
+    setIsJoining(true);
+
+    setTimeout(() => {
+      navigate(`/editor/${trimmedRoomId}`, { state: { username: trimmedUsername } });
+    }, 300);
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') handleJoinRoom();
+    if (e.key === 'Enter') {
+      if (roomId.trim()) {
+        handleJoinRoom();
+      } else {
+        handleCreateRoom();
+      }
+    }
   };
+
+  const scrollToJoin = () => {
+    document.getElementById('join')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // ==================== DATA ====================
 
   const features = [
     {
@@ -67,13 +111,20 @@ const Home = () => {
     { num: '03', title: 'Code Together', desc: 'Collaborate in real-time on any language' },
   ];
 
+  const stats = [
+    { label: 'LANGUAGES', value: '15+' },
+    { label: 'LATENCY', value: '<50ms' },
+    { label: 'ROOMS', value: '∞' },
+    { label: 'COST', value: 'FREE' },
+  ];
+
   return (
     <div className="relative min-h-screen">
       {/* ==================== BACKGROUNDS ==================== */}
       <HomeBackground />
       <AuroraGlow />
 
-      {/* Subtle scroll fade overlay - creates depth without harsh edges */}
+      {/* Subtle scroll fade overlay */}
       <div
         className="fixed inset-0 z-[1] pointer-events-none"
         style={{
@@ -83,13 +134,26 @@ const Home = () => {
       />
 
       {/* ==================== NAVBAR ==================== */}
-      <nav className="relative z-10 flex justify-between items-center px-8 md:px-16 py-6">
-        <h2 className="font-roboto font-bold text-2xl tracking-wider">CodeSync</h2>
-        <div className="flex gap-8 text-lg text-text-secondary">
+      <nav className="relative z-10 flex justify-between items-center px-6 md:px-16 py-6">
+        <motion.h2
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="font-roboto font-bold text-2xl md:text-3xl tracking-wider"
+        >
+          CodeSync
+        </motion.h2>
+
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="hidden md:flex gap-8 text-lg text-text-secondary"
+        >
           <a href="#features" className="hover:text-white transition-colors">Features</a>
           <a href="#how-it-works" className="hover:text-white transition-colors">How it works</a>
           <a href="#join" className="hover:text-white transition-colors">Get Started</a>
-        </div>
+        </motion.div>
       </nav>
 
       {/* ==================== HERO SECTION ==================== */}
@@ -98,7 +162,7 @@ const Home = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-lg tracking-[0.3em] text-text-secondary mb-4"
+          className="text-sm md:text-lg tracking-[0.3em] text-text-secondary mb-4"
         >
           REAL-TIME COLLABORATION
         </motion.p>
@@ -107,7 +171,7 @@ const Home = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="font-roboto font-bold text-7xl md:text-9xl text-gradient tracking-wider text-center leading-none"
+          className="font-roboto font-bold text-6xl md:text-8xl lg:text-9xl text-gradient tracking-wider text-center leading-none"
         >
           CodeSync
         </motion.h1>
@@ -116,7 +180,7 @@ const Home = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-xl md:text-2xl text-text-secondary mt-6 mb-12 text-center max-w-2xl"
+          className="text-lg md:text-2xl text-text-secondary mt-6 mb-12 text-center max-w-2xl px-4"
         >
           Code together in real-time. No signup, no setup, just pure collaboration.
         </motion.p>
@@ -127,47 +191,56 @@ const Home = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.7 }}
-          className="glass p-8 rounded-3xl w-full max-w-md"
+          className="w-full max-w-md px-4"
         >
-          <input
-            type="text"
-            placeholder="Enter your username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="w-full bg-white/5 border border-white/10 rounded-full px-6 py-3 text-xl mb-3 focus:outline-none focus:border-aurora-purple transition-colors"
-          />
+          <GlassCard padding="p-8" rounded="rounded-3xl">
+            <div className="space-y-3 mb-5">
+              <Input
+                type="text"
+                placeholder="Enter your username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                onKeyDown={handleKeyDown}
+                icon={<User className="w-5 h-5" />}
+              />
 
-          <input
-            type="text"
-            placeholder="Room ID (leave empty to create new)"
-            value={roomId}
-            onChange={(e) => setRoomId(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="w-full bg-white/5 border border-white/10 rounded-full px-6 py-3 text-xl mb-5 focus:outline-none focus:border-aurora-purple transition-colors"
-          />
+              <Input
+                type="text"
+                placeholder="Room ID (leave empty to create new)"
+                value={roomId}
+                onChange={(e) => setRoomId(e.target.value)}
+                onKeyDown={handleKeyDown}
+                icon={<Hash className="w-5 h-5" />}
+              />
+            </div>
 
-          <div className="flex gap-3">
-            <button
-              onClick={handleCreateRoom}
-              className="flex-1 bg-white text-black font-medium py-3 rounded-full hover:scale-105 transition-transform text-lg"
-            >
-              CREATE ROOM
-            </button>
-            <button
-              onClick={handleJoinRoom}
-              className="flex-1 border border-white/30 py-3 rounded-full hover:bg-white/10 transition-colors text-lg"
-            >
-              JOIN ROOM
-            </button>
-          </div>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <PillButton
+                variant="primary"
+                onClick={handleCreateRoom}
+                disabled={isCreating}
+                className="flex-1"
+              >
+                {isCreating ? 'CREATING...' : 'CREATE ROOM'}
+              </PillButton>
+              <PillButton
+                variant="secondary"
+                onClick={handleJoinRoom}
+                disabled={isJoining}
+                className="flex-1"
+              >
+                {isJoining ? 'JOINING...' : 'JOIN ROOM'}
+              </PillButton>
+            </div>
+          </GlassCard>
         </motion.div>
 
         {/* Scroll indicator */}
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-8 text-text-muted text-sm tracking-widest"
+          className="absolute bottom-8 text-text-muted text-sm tracking-widest cursor-pointer"
+          onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
         >
           SCROLL TO EXPLORE ↓
         </motion.div>
@@ -176,22 +249,24 @@ const Home = () => {
       {/* ==================== STATS BAR ==================== */}
       <section className="relative z-10 border-t border-b border-white/5 py-8">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 px-6">
-          {[
-            { label: 'LANGUAGES', value: '15+' },
-            { label: 'LATENCY', value: '<50ms' },
-            { label: 'ROOMS', value: '∞' },
-            { label: 'COST', value: 'FREE' },
-          ].map((stat, i) => (
-            <div key={i} className="text-center">
+          {stats.map((stat, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              viewport={{ once: true }}
+              className="text-center"
+            >
               <p className="text-xs tracking-widest text-text-muted mb-2">{stat.label}</p>
-              <p className="font-roboto font-bold text-4xl text-white">{stat.value}</p>
-            </div>
+              <p className="font-roboto font-bold text-3xl md:text-4xl text-white">{stat.value}</p>
+            </motion.div>
           ))}
         </div>
       </section>
 
       {/* ==================== FEATURES SECTION ==================== */}
-      <section id="features" className="relative z-10 py-32 px-6">
+      <section id="features" className="relative z-10 py-24 md:py-32 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -200,11 +275,11 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <Sparkles className="w-6 h-6 text-aurora-purple mx-auto mb-4" />
-            <h2 className="font-roboto font-bold text-5xl md:text-6xl text-gradient mb-4">
+            <Sparkles className="w-6 h-6 text-aurora-purple mx-auto mb-4 animate-glow-pulse" />
+            <h2 className="font-roboto font-bold text-4xl md:text-5xl lg:text-6xl text-gradient mb-4">
               What's inside?
             </h2>
-            <p className="text-xl text-text-secondary max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto">
               Everything you need to collaborate on code, without the friction.
             </p>
           </motion.div>
@@ -217,20 +292,21 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="glass glass-hover rounded-2xl p-6 relative overflow-hidden group"
               >
-                <div className="text-aurora-purple mb-4 group-hover:scale-110 transition-transform">
-                  {feature.icon}
-                </div>
-                <h3 className="font-roboto font-semibold text-2xl mb-3 text-white">
-                  {feature.title}
-                </h3>
-                <p className="text-text-secondary text-lg leading-relaxed">
-                  {feature.description}
-                </p>
-                <span className="absolute bottom-4 right-4 font-roboto font-bold text-4xl text-white/5">
-                  {feature.number}
-                </span>
+                <GlassCard hover className="relative overflow-hidden group h-full">
+                  <div className="text-aurora-purple mb-4 group-hover:scale-110 transition-transform">
+                    {feature.icon}
+                  </div>
+                  <h3 className="font-roboto font-semibold text-2xl mb-3 text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="text-text-secondary text-lg leading-relaxed">
+                    {feature.description}
+                  </p>
+                  <span className="absolute bottom-4 right-4 font-roboto font-bold text-4xl text-white/5">
+                    {feature.number}
+                  </span>
+                </GlassCard>
               </motion.div>
             ))}
           </div>
@@ -238,7 +314,7 @@ const Home = () => {
       </section>
 
       {/* ==================== HOW IT WORKS ==================== */}
-      <section id="how-it-works" className="relative z-10 py-32 px-6">
+      <section id="how-it-works" className="relative z-10 py-24 md:py-32 px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -247,11 +323,11 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <Sparkles className="w-6 h-6 text-aurora-cyan mx-auto mb-4" />
-            <h2 className="font-roboto font-bold text-5xl md:text-6xl text-gradient mb-4">
+            <Sparkles className="w-6 h-6 text-aurora-cyan mx-auto mb-4 animate-glow-pulse" />
+            <h2 className="font-roboto font-bold text-4xl md:text-5xl lg:text-6xl text-gradient mb-4">
               How it works
             </h2>
-            <p className="text-xl text-text-secondary">
+            <p className="text-lg md:text-xl text-text-secondary">
               Three steps. That's it.
             </p>
           </motion.div>
@@ -266,10 +342,10 @@ const Home = () => {
                 viewport={{ once: true }}
                 className="text-center relative"
               >
-                <div className="font-roboto font-bold text-8xl text-gradient-aurora mb-4">
+                <div className="font-roboto font-bold text-7xl md:text-8xl text-gradient-aurora mb-4">
                   {step.num}
                 </div>
-                <h3 className="font-roboto font-semibold text-3xl mb-3">
+                <h3 className="font-roboto font-semibold text-2xl md:text-3xl mb-3">
                   {step.title}
                 </h3>
                 <p className="text-lg text-text-secondary">{step.desc}</p>
@@ -284,31 +360,32 @@ const Home = () => {
       </section>
 
       {/* ==================== CTA SECTION ==================== */}
-      <section className="relative z-10 py-32 px-6">
+      <section className="relative z-10 py-24 md:py-32 px-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="max-w-4xl mx-auto text-center glass rounded-3xl p-16"
+          className="max-w-4xl mx-auto"
         >
-          <h2 className="font-roboto font-bold text-5xl md:text-6xl text-gradient mb-6">
-            Ready to collaborate?
-          </h2>
-          <p className="text-xl text-text-secondary mb-8">
-            Jump into a room and start coding with your team right now.
-          </p>
-          <button
-            onClick={() => document.getElementById('join').scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white text-black px-10 py-4 rounded-full text-xl font-medium hover:scale-105 transition-transform"
-          >
-            GET STARTED
-          </button>
+          <GlassCard padding="p-8 md:p-16" rounded="rounded-3xl" className="text-center">
+            <h2 className="font-roboto font-bold text-4xl md:text-5xl lg:text-6xl text-gradient mb-6">
+              Ready to collaborate?
+            </h2>
+            <p className="text-lg md:text-xl text-text-secondary mb-8">
+              Jump into a room and start coding with your team right now.
+            </p>
+            <div className="flex justify-center">
+              <PillButton variant="primary" size="lg" onClick={scrollToJoin}>
+                GET STARTED
+              </PillButton>
+            </div>
+          </GlassCard>
         </motion.div>
       </section>
 
       {/* ==================== FOOTER ==================== */}
-      <footer className="relative z-10 border-t border-white/5 py-8 text-center">
+      <footer className="relative z-10 border-t border-white/5 py-8 text-center px-6">
         <p className="text-text-muted text-lg">
           Made with{' '}
           <span className="text-aurora-magenta animate-glow-pulse">♥</span> by{' '}
