@@ -2,18 +2,24 @@ import { useEffect } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import useRoomStore from '../store/useRoomStore.js';
+import { useSocket } from '../hooks/useSocket.js';
 import EditorBackground from '../three/EditorBackground.jsx';
+import MonacoEditor from '../components/editor/MonacoEditor.jsx';
+import EditorToolbar from '../components/editor/EditorToolbar.jsx';
+import OutputPanel from '../components/editor/OutputPanel.jsx';
+import UsersList from '../components/room/UsersList.jsx';
 import LoadingSpinner from '../components/ui/LoadingSpinner.jsx';
 
 const EditorPage = () => {
   const { roomId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  const { setRoom } = useRoomStore();
+  const { setRoom, isConnecting } = useRoomStore();
 
+  const stateUsername = location.state?.username;
+
+  // Redirect if no username
   useEffect(() => {
-    const stateUsername = location.state?.username;
-
     if (!stateUsername) {
       toast.error('Please enter username from home page');
       navigate('/');
@@ -21,31 +27,65 @@ const EditorPage = () => {
     }
 
     setRoom(roomId, stateUsername);
-    toast.success(`Joined room: ${roomId}`);
-  }, [roomId, location.state, navigate, setRoom]);
+  }, [roomId, stateUsername, navigate, setRoom]);
+
+  // Initialize socket connection
+  useSocket(roomId, stateUsername);
+
+  if (!stateUsername) {
+    return null;
+  }
 
   return (
     <div className="relative min-h-screen">
       <EditorBackground />
 
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
-        <div className="glass rounded-3xl p-12 text-center max-w-2xl">
-          <LoadingSpinner size="lg" text="Editor coming in Phase 8..." />
+      {/* Connecting overlay */}
+      {isConnecting && (
+        <div className="fixed inset-0 z-50 bg-base/90 backdrop-blur-md flex items-center justify-center">
+          <LoadingSpinner size="lg" text="Connecting to room..." />
+        </div>
+      )}
 
-          <div className="mt-8 pt-8 border-t border-white/10">
-            <p className="text-lg text-text-muted mb-2">Room ID</p>
-            <p className="font-roboto font-bold text-3xl text-gradient-aurora">
-              {roomId}
-            </p>
-          </div>
+      <div className="relative z-10 h-screen flex flex-col p-4 gap-4">
 
+        {/* ==================== TOP: NAVBAR ==================== */}
+        <div className="flex items-center justify-between px-2">
           <button
             onClick={() => navigate('/')}
-            className="mt-8 text-text-secondary hover:text-white transition-colors"
+            className="font-roboto font-bold text-2xl md:text-3xl tracking-wider hover:opacity-80 transition-opacity"
           >
-            ← Back to home
+            CodeSync
           </button>
         </div>
+
+        {/* ==================== TOOLBAR ==================== */}
+        <EditorToolbar />
+
+        {/* ==================== MAIN LAYOUT ==================== */}
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-[220px_1fr_360px] gap-4 overflow-hidden">
+
+          {/* Left: Users Panel */}
+          <div className="hidden lg:block overflow-hidden">
+            <UsersList />
+          </div>
+
+          {/* Center: Monaco Editor */}
+          <div className="overflow-hidden min-h-[400px]">
+            <MonacoEditor />
+          </div>
+
+          {/* Right: Output Panel */}
+          <div className="overflow-hidden min-h-[300px]">
+            <OutputPanel />
+          </div>
+
+          {/* Mobile: Users panel below (only on mobile/tablet) */}
+          <div className="lg:hidden">
+            <UsersList />
+          </div>
+        </div>
+
       </div>
     </div>
   );

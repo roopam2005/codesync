@@ -1,4 +1,4 @@
-// All socket event names in one place
+// Socket event constants (must match backend exactly)
 export const SOCKET_EVENTS = {
   // Client → Server
   JOIN: 'join',
@@ -6,6 +6,7 @@ export const SOCKET_EVENTS = {
   CODE_CHANGE: 'code-change',
   LANGUAGE_CHANGE: 'language-change',
   REQUEST_SYNC: 'request-sync',
+  OUTPUT_UPDATE: 'output-update',           // NEW
 
   // Server → Client
   JOINED: 'joined',
@@ -13,5 +14,6 @@ export const SOCKET_EVENTS = {
   CODE_UPDATE: 'code-update',
   LANGUAGE_UPDATE: 'language-update',
   SYNC_CODE: 'sync-code',
+  OUTPUT_BROADCAST: 'output-broadcast',     // NEW
   ERROR: 'error',
 };

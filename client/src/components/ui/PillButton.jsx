@@ -9,16 +9,14 @@ const PillButton = ({
   type = 'button',
   icon = null,
 }) => {
-  // Variant styles
   const variants = {
     primary: 'bg-white text-black hover:scale-105',
     secondary: 'border border-white/30 text-white hover:bg-white/10',
     danger: 'bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500/30',
-    success: 'bg-aurora-cyan/20 border border-aurora-cyan/40 text-aurora-cyan hover:bg-aurora-cyan/30',
+    success: 'bg-gradient-to-r from-emerald-500 to-green-500 text-white hover:from-emerald-400 hover:to-green-400 hover:scale-105 shadow-lg shadow-emerald-500/30',
     gradient: 'bg-gradient-to-r from-aurora-purple to-aurora-magenta text-white hover:scale-105',
   };
 
-  // Size styles
   const sizes = {
     sm: 'px-4 py-2 text-base',
     md: 'px-6 py-3 text-lg',

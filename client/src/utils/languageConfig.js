@@ -1,18 +1,27 @@
+// Supported languages for CodeSync
+// JavaScript runs locally (unlimited), Python runs via Pyodide (unlimited)
+
 export const SUPPORTED_LANGUAGES = [
-  { label: 'JavaScript', value: 'javascript', version: '18.15.0' },
-  { label: 'TypeScript', value: 'typescript', version: '5.0.3' },
-  { label: 'Python', value: 'python', version: '3.10.0' },
-  { label: 'Java', value: 'java', version: '15.0.2' },
-  { label: 'C', value: 'c', version: '10.2.0' },
-  { label: 'C++', value: 'cpp', version: '10.2.0' },
-  { label: 'C#', value: 'csharp', version: '6.12.0' },
-  { label: 'Go', value: 'go', version: '1.16.2' },
-  { label: 'Rust', value: 'rust', version: '1.50.0' },
-  { label: 'PHP', value: 'php', version: '8.2.3' },
-  { label: 'Ruby', value: 'ruby', version: '3.0.1' },
-  { label: 'Kotlin', value: 'kotlin', version: '1.8.20' },
-  { label: 'Swift', value: 'swift', version: '5.3.3' },
-  { label: 'Bash', value: 'bash', version: '5.2.0' },
+  {
+    label: 'JavaScript',
+    value: 'javascript',
+    description: 'Runs instantly in browser',
+  },
+  {
+    label: 'Python',
+    value: 'python',
+    description: 'Runs via Pyodide (WebAssembly)',
+  },
 ];
 
 export const DEFAULT_LANGUAGE = SUPPORTED_LANGUAGES[0];
+
+// Check if a language is supported
+export const isLanguageSupported = (lang) => {
+  return SUPPORTED_LANGUAGES.some((l) => l.value === lang);
+};
+
+// Get language config by value
+export const getLanguageConfig = (value) => {
+  return SUPPORTED_LANGUAGES.find((l) => l.value === value) || DEFAULT_LANGUAGE;
+};

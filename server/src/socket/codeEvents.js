@@ -1,4 +1,4 @@
-// Code-related socket events (code change, language change, sync)
+// Code-related socket events (code change, language change, sync, output)
 import roomStore from '../store/roomStore.js';
 import { SOCKET_EVENTS } from './events.js';
 
@@ -8,10 +8,7 @@ export const registerCodeEvents = (io, socket) => {
     try {
       if (!roomId) return;
 
-      // Update in-memory store
       roomStore.updateRoomCode(roomId, code);
-
-      // Broadcast to everyone in the room EXCEPT the sender
       socket.to(roomId).emit(SOCKET_EVENTS.CODE_UPDATE, { code });
     } catch (err) {
       console.error('CODE_CHANGE error:', err.message);
@@ -23,10 +20,7 @@ export const registerCodeEvents = (io, socket) => {
     try {
       if (!roomId || !language) return;
 
-      // Update in-memory store
       roomStore.updateRoomLanguage(roomId, language);
-
-      // Broadcast to everyone in the room EXCEPT the sender
       socket.to(roomId).emit(SOCKET_EVENTS.LANGUAGE_UPDATE, { language });
     } catch (err) {
       console.error('LANGUAGE_CHANGE error:', err.message);
@@ -39,13 +33,29 @@ export const registerCodeEvents = (io, socket) => {
       const room = roomStore.getRoom(roomId);
       if (!room) return;
 
-      // Send current room state to the requesting socket
       socket.emit(SOCKET_EVENTS.SYNC_CODE, {
         code: room.code,
         language: room.language,
       });
     } catch (err) {
       console.error('REQUEST_SYNC error:', err.message);
+    }
+  });
+
+  // ==================== OUTPUT UPDATE (NEW) ====================
+  // When a user runs code, broadcast the output to everyone else in the room
+  socket.on(SOCKET_EVENTS.OUTPUT_UPDATE, ({ roomId, output, error, username }) => {
+    try {
+      if (!roomId) return;
+
+      // Broadcast output to everyone in the room EXCEPT the sender
+      socket.to(roomId).emit(SOCKET_EVENTS.OUTPUT_BROADCAST, {
+        output,
+        error,
+        username, // who ran the code
+      });
+    } catch (err) {
+      console.error('OUTPUT_UPDATE error:', err.message);
     }
   });
 };

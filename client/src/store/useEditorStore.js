@@ -1,7 +1,15 @@
 import { create } from 'zustand';
 
+const DEFAULT_CODE = `// Welcome to CodeSync!
+// Try running this JavaScript code:
+
+console.log("Hello, World!");
+console.log(2 + 2);
+
+// Switch to Python from the dropdown to try Python code`;
+
 const useEditorStore = create((set) => ({
-  code: '// Welcome to CodeSync!\n// Start coding together...',
+  code: DEFAULT_CODE,
   language: 'javascript',
   output: '',
   isExecuting: false,
@@ -16,7 +24,7 @@ const useEditorStore = create((set) => ({
   clearOutput: () => set({ output: '', error: null }),
   resetEditor: () =>
     set({
-      code: '// Welcome to CodeSync!\n// Start coding together...',
+      code: DEFAULT_CODE,
       language: 'javascript',
       output: '',
       error: null,
