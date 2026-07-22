@@ -6,11 +6,11 @@
 
 **Code together in real-time. No signup. No setup. Just pure collaboration.**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit-a855f7?style=for-the-badge&logo=vercel)](https://codesync.vercel.app)
-[![Stars](https://img.shields.io/github/stars/roopamviradiya/codesync?style=for-the-badge&color=ec4899)](https://github.com/roopamviradiya/codesync/stargazers)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit-a855f7?style=for-the-badge&logo=vercel)](https://codesync-roopam.vercel.app)
+[![Stars](https://img.shields.io/github/stars/roopam2005/codesync?style=for-the-badge&color=ec4899)](https://github.com/roopam2005/codesync/stargazers)
 [![Made with](https://img.shields.io/badge/Made%20with-♥%20by%20Roopam-06b6d4?style=for-the-badge)](https://www.linkedin.com/in/roopamviradiya)
 
-[✨ Live Demo](https://codesync.vercel.app) • [📖 Features](#-features) • [🛠️ Tech Stack](#-tech-stack) • [🚀 Setup](#-getting-started) • [🤝 Collaborate](#-collaborate-with-us) • [👨‍💻 Author](#-author)
+[✨ Live Demo](https://codesync-roopam.vercel.app) • [📖 Features](#-features) • [🛠️ Tech Stack](#-tech-stack) • [🚀 Setup](#-getting-started) • [🤝 Collaborate](#-collaborate-with-us) • [👨‍💻 Author](#-author)
 
 ---
 
@@ -30,7 +30,7 @@ Perfect for **pair programming**, **technical interviews**, **teaching sessions*
 
 ## 🚀 Live Demo
 
-**🔗 Try it now:** [https://codesync.vercel.app](https://codesync.vercel.app)
+**🔗 Try it now:** [https://codesync-roopam.vercel.app](https://codesync-roopam.vercel.app)
 
 Open two browser windows, create a room in one, join with the Room ID in the other, and watch the magic happen! ✨
 
@@ -136,7 +136,7 @@ Open two browser windows, create a room in one, join with the Room ID in the oth
 **1. Clone the repository**
 
 ```bash
-git clone https://github.com/roopamviradiya/codesync.git
+git clone https://github.com/roopam2005/codesync.git
 cd codesync
 ```
 
@@ -398,8 +398,8 @@ If you find CodeSync useful, here's how you can support:
 
 **Share it with your network:**
 
-- 🐦 [Share on Twitter](https://twitter.com/intent/tweet?text=Check%20out%20CodeSync%20-%20Real-time%20collaborative%20code%20editor!&url=https://codesync.vercel.app)
-- 💼 [Share on LinkedIn](https://www.linkedin.com/sharing/share-offsite/?url=https://codesync.vercel.app)
+- 🐦 [Share on Twitter](https://twitter.com/intent/tweet?text=Check%20out%20CodeSync%20-%20Real-time%20collaborative%20code%20editor!&url=https://codesync-roopam.vercel.app)
+- 💼 [Share on LinkedIn](https://www.linkedin.com/sharing/share-offsite/?url=https://codesync-roopam.vercel.app)
 
 ---
 
@@ -412,7 +412,7 @@ If you find CodeSync useful, here's how you can support:
 Full-Stack Developer • Building modern web experiences
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/roopamviradiya)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github)](https://github.com/roopamviradiya)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github)](https://github.com/roopam2005)
 
 </div>
 
