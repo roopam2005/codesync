@@ -14,7 +14,7 @@
 
 ---
 
-![CodeSync Hero](./screenshots/hero.png)
+![CodeSync Hero](./screenshots/Hero%20Section.png)
 
 </div>
 
@@ -40,7 +40,7 @@ Open two browser windows, create a room in one, join with the Room ID in the oth
 
 <div align="center">
 
-![Features](./screenshots/features.png)
+![Features](./screenshots/Featurs.png)
 
 </div>
 
@@ -65,11 +65,11 @@ Open two browser windows, create a room in one, join with the Room ID in the oth
 
 ### 💻 The Editor
 
-![Editor View](./screenshots/editor.png)
+![Editor View](./screenshots/Editor.png)
 
 ### 📋 How It Works
 
-![How It Works](./screenshots/steps.png)
+![How It Works](./screenshots/Steps.png)
 
 ---
 
